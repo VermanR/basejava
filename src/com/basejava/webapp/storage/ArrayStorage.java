@@ -16,8 +16,8 @@ public class ArrayStorage {
     }
 
     public void update(Resume resume) {
-        int tmp = searchResume(resume.getUuid());            //резюме нет в storage?
-        if (tmp != -1) {
+        int index = searchResume(resume.getUuid());            //резюме нет в storage?
+        if (index == -1) {
             System.out.println("ERROR: resume " + resume.getUuid() + " not found, update command failed");
         } else {
             storage[size] = resume;
@@ -25,10 +25,10 @@ public class ArrayStorage {
     }
 
     public void save(Resume resume) {
-        int tmp = searchResume(resume.getUuid());            //резюме нет в storage?
-        if (tmp != -1) {
+        int index = searchResume(resume.getUuid());            //резюме нет в storage?
+        if (index == -1) {
             System.out.println("ERROR: resume " + resume.getUuid() + " is already there, save command failed");
-        } else if (size == storage.length) {              // проверка на переполнение
+        } else if (size >= storage.length) {              // проверка на переполнение
             System.out.println("ERROR: array is full");
         } else {
             storage[size] = resume;
@@ -37,19 +37,20 @@ public class ArrayStorage {
     }
 
     public Resume get(String uuid) {
-        int tmp = searchResume(uuid);                       //резюме есть в storage?
-        if (tmp == -1) {
+        int index = searchResume(uuid);                       //резюме есть в storage?
+        if (index == -1) {
             System.out.println("ERROR: resume " + uuid + " not found, get command failed");
             return null;
         }
-        return storage[tmp];
+        return storage[index];
     }
 
     public void delete(String uuid) {                 //резюме есть в storage?
-        if (searchResume(uuid) == -1) {
+        int index = searchResume(uuid);
+        if (index == -1) {
             System.out.println("ERROR: resume " + uuid + " not found, delete command failed");
         } else {
-            System.arraycopy(storage, 0, storage, 0, size--);
+            System.arraycopy(storage, index + 1, storage, index, size - 1 - index);
         }
     }
 
