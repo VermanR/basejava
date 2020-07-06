@@ -38,14 +38,14 @@ public class ArrayStorage extends AbstractArrayStorage{
         }
     }
 
-    public Resume get(String uuid) {
+    /*public Resume get(String uuid) {
         int index = searchResume(uuid);                       //резюме есть в storage?
         if (index == -1) {
             System.out.println("ERROR: resume " + uuid + " not found, get command failed");
             return null;
         }
         return storage[index];
-    }
+    }*/
 
     public void delete(String uuid) {                 //резюме есть в storage?
         int index = searchResume(uuid);
@@ -64,7 +64,7 @@ public class ArrayStorage extends AbstractArrayStorage{
         return Arrays.copyOf(storage, size);
     }
 
-    private int searchResume(String uuid) {
+    protected int searchResume(String uuid) {
         for (int i = 0; i < size; i++) {
             if (storage[i].getUuid().equals(uuid)) {
                 return i;

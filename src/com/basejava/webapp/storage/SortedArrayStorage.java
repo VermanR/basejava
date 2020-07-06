@@ -1,4 +1,40 @@
 package com.basejava.webapp.storage;
 
-public class SortedArrayStorage {
+import com.basejava.webapp.model.Resume;
+
+import java.util.Arrays;
+
+public class SortedArrayStorage extends AbstractArrayStorage{
+
+    @Override
+    public void clear() {
+
+    }
+
+    @Override
+    public void update(Resume resume) {
+
+    }
+
+    @Override
+    public void save(Resume resume) {
+
+    }
+
+    @Override
+    public void delete(String uuid) {
+
+    }
+
+    @Override
+    public Resume[] getAll() {
+        return new Resume[0];
+    }
+
+    @Override
+    protected int searchResume(String uuid) {
+        Resume searhKey = new Resume();
+        searhKey.setUuid(uuid);
+        return Arrays.binarySearch(storage, 0, size, searhKey);
+    }
 }
