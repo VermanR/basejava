@@ -7,23 +7,17 @@ import java.util.Arrays;
 public class SortedArrayStorage extends AbstractArrayStorage{
 
     @Override
-    public void clear() {
-
-    }
-
-    @Override
-    public void update(Resume resume) {
-
-    }
-
-    @Override
     public void save(Resume resume) {
-
-    }
-
-    @Override
-    public void delete(String uuid) {
-
+        int index = searchResume(resume.getUuid());            //резюме нет в storage?
+        if (index > 0) {
+            System.out.println("ERROR: resume " + resume.getUuid() + " is already there, save command failed");
+        } else if (size >= storage.length) {              // проверка на переполнение
+            System.out.println("ERROR: array is full");
+        } else {
+            int j = - index - 1;
+            System.arraycopy(storage, j, storage, j + 1, size - j);
+            storage[j] = resume;
+        }
     }
 
     @Override
@@ -33,8 +27,8 @@ public class SortedArrayStorage extends AbstractArrayStorage{
 
     @Override
     protected int searchResume(String uuid) {
-        Resume searhKey = new Resume();
-        searhKey.setUuid(uuid);
-        return Arrays.binarySearch(storage, 0, size, searhKey);
+        Resume searchKey = new Resume();
+        searchKey.setUuid(uuid);
+        return Arrays.binarySearch(storage, 0, size, searchKey);
     }
 }
