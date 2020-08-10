@@ -4,25 +4,23 @@ import com.basejava.webapp.model.Resume;
 
 import java.util.Arrays;
 
-public class SortedArrayStorage extends AbstractArrayStorage{
+public class SortedArrayStorage extends AbstractArrayStorage {
 
     @Override
-    public void save(Resume resume) {
-        int index = searchResume(resume.getUuid());            //резюме нет в storage?
-        if (index > 0) {
-            System.out.println("ERROR: resume " + resume.getUuid() + " is already there, save command failed");
-        } else if (size >= storage.length) {              // проверка на переполнение
-            System.out.println("ERROR: array is full");
-        } else {
-            int j = - index - 1;
-            System.arraycopy(storage, j, storage, j + 1, size - j);
-            storage[j] = resume;
+    protected void fillDeletedElement(int index) {
+        //System.arraycopy(storage, index + 1, storage, index, size - 1 - index);
+        int numMoved = size - index - 1;
+        if (numMoved > 0) {
+            System.arraycopy(storage, index + 1, storage, index, numMoved);
         }
     }
 
     @Override
-    public Resume[] getAll() {
-        return new Resume[0];
+    protected void insertElement(Resume resume, int index) {
+        int insertIdx = -index - 1;
+        System.arraycopy(storage, insertIdx, storage, insertIdx + 1, size - insertIdx);
+        storage[insertIdx] = resume;
+
     }
 
     @Override
