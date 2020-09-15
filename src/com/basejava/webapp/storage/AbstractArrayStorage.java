@@ -1,5 +1,8 @@
 package com.basejava.webapp.storage;
 
+import com.basejava.webapp.exception.ExistStorageException;
+import com.basejava.webapp.exception.NotExistStorageException;
+import com.basejava.webapp.exception.StorageException;
 import com.basejava.webapp.model.Resume;
 
 import java.util.Arrays;
@@ -19,12 +22,12 @@ public abstract class AbstractArrayStorage implements Storage {
         size = 0;
     }
 
-    public void update(Resume resume) {
-        int index = searchResume(resume.getUuid());            //резюме есть в storage?
+    public void update(Resume r) {
+        int index = getIndex(r.getUuid());            //резюме есть в storage?
         if (index < 0) {
-            System.out.println("ERROR: resume " + resume.getUuid() + " not found, update command failed");
+           throw new NotExistStorageException(r.getUuid());
         } else {
-            storage[index] = resume;
+            storage[index] = r;
         }
     }
 
@@ -36,22 +39,22 @@ public abstract class AbstractArrayStorage implements Storage {
         return Arrays.copyOf(storage, size);
     }
 
-    public void save(Resume resume) {
-        int index = searchResume(resume.getUuid());            //резюме нет в storage?
+    public void save(Resume r) {
+        int index = getIndex(r.getUuid());            //резюме нет в storage?
         if (index >= 0) {
-            System.out.println("ERROR: resume " + resume.getUuid() + " is already there, save command failed");
+            throw new ExistStorageException(r.getUuid());
         } else if (size >= STORAGE_LIMIT) {              // проверка на переполнение
-            System.out.println("ERROR: array is full");
+            throw new StorageException("Storage overflow", r.getUuid());
         } else {
-            insertElement(resume, index);
+            insertElement(r, index);
             size++;
         }
     }
 
     public void delete(String uuid) {                 //резюме есть в storage?
-        int index = searchResume(uuid);
+        int index = getIndex(uuid);
         if (index < 0) {
-            System.out.println("ERROR: resume " + uuid + " not found, delete command failed");
+            throw new NotExistStorageException(uuid);
         } else {
             fillDeletedElement(index);
             storage[size - 1] = null;
@@ -60,17 +63,16 @@ public abstract class AbstractArrayStorage implements Storage {
     }
 
     public Resume get(String uuid) {
-        int index = searchResume(uuid);                       //резюме есть в storage?
+        int index = getIndex(uuid);                       //резюме есть в storage?
         if (index < 0) {
-            System.out.println("ERROR: resume " + uuid + " not found, get command failed");
-            return null;
+            throw new NotExistStorageException(uuid);
         }
         return storage[index];
     }
 
     protected abstract void fillDeletedElement(int index);
 
-    protected abstract void insertElement(Resume resume, int index);
+    protected abstract void insertElement(Resume r, int index);
 
-    protected abstract int searchResume(String uuid);
+    protected abstract int getIndex(String uuid);
 }
