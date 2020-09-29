@@ -4,31 +4,27 @@ import com.basejava.webapp.exception.ExistStorageException;
 import com.basejava.webapp.exception.NotExistStorageException;
 import com.basejava.webapp.exception.StorageException;
 import com.basejava.webapp.model.Resume;
-import com.sun.org.apache.bcel.internal.generic.ARRAYLENGTH;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.UUID;
-
-import static org.junit.Assert.*;
+import static junit.framework.TestCase.assertEquals;
 
 public abstract class AbstractArrayStorageTest {
     private Storage storage;
 
     private static final String UUID_1 = "uuid1";
-    public static final Resume RESUME_1 = new Resume(UUID_1);
+    private static final Resume RESUME_1 = new Resume(UUID_1);
 
     private static final String UUID_2 = "uuid2";
-    public static final Resume RESUME_2 = new Resume(UUID_2);
+    private static final Resume RESUME_2 = new Resume(UUID_2);
 
     private static final String UUID_3 = "uuid3";
-    public static final Resume RESUME_3 = new Resume(UUID_3);
+    private static final Resume RESUME_3 = new Resume(UUID_3);
 
     private static final String UUID_4 = "uuid4";
-    public static final Resume RESUME_4 = new Resume(UUID_4);
+    private static final Resume RESUME_4 = new Resume(UUID_4);
 
-    protected AbstractArrayStorageTest(Storage storage) {
+    AbstractArrayStorageTest(Storage storage) {
         this.storage = storage;
     }
 
@@ -55,8 +51,7 @@ public abstract class AbstractArrayStorageTest {
     public void update() throws Exception {
         Resume newResume = new Resume(UUID_1);
         storage.update(newResume);
-        assertTrue(newResume == storage.get(UUID_1));
-
+        assertEquals(newResume, storage.get(UUID_1));
     }
 
     @Test(expected = NotExistStorageException.class)
@@ -66,11 +61,11 @@ public abstract class AbstractArrayStorageTest {
 
     @Test
     public void getAll() throws Exception {
-        Resume[] array = storage.getAll();
-        assertEquals(3, array.length);
-        assertEquals(RESUME_1, array[0]);
-        assertEquals(RESUME_2, array[1]);
-        assertEquals(RESUME_3, array[2]);
+        Resume[] expectedResumes = storage.getAll();
+        assertEquals(3, expectedResumes.length);
+        assertEquals(RESUME_1, expectedResumes[0]);
+        assertEquals(RESUME_2, expectedResumes[1]);
+        assertEquals(RESUME_3, expectedResumes[2]);
     }
 
     @Test
@@ -92,7 +87,7 @@ public abstract class AbstractArrayStorageTest {
                 storage.save(new Resume());
             }
         } catch (StorageException e) {
-            Assert.fail();
+            Assert.fail("Storage over flow");
         }
         storage.save(new Resume());
     }
@@ -128,5 +123,4 @@ public abstract class AbstractArrayStorageTest {
     private void assertSize(int size) {
         assertEquals(size, storage.size());
     }
-
 }
