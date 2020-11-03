@@ -6,56 +6,58 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MapStorage extends AbstractStorage {
-    private Map<Object, Resume> map = new HashMap<>();
+    private Map<String, Resume> map = new HashMap<>();
 
     @Override
     protected Object getSearchKey(String uuid) {
-        for (Map.Entry<Object, Resume> pair : map.entrySet()) {   // поиск значения по ключу
-            if(pair.getKey().equals(uuid)) {
-                return pair.getValue();
-            }
-        }
-        return null;
+        return map.get(uuid);
     }
 
+    // ?
     @Override
-    protected void doUpdate(Resume r, Object searchKey) {  // ?
+    protected void doUpdate(Resume r, Object searchKey) {
         map.put(searchKey, r);
     }
 
+    // возвращает true если резюме есть
     @Override
     protected boolean isExist(Object searchKey) {
-        return searchKey != null;                  // возвращает true если резюме есть
+        return searchKey != null;
     }
 
+    // добавляем новую пару ключ-значение
     @Override
-    protected void doSave(Resume r, Object searchKey) {  // добавляем новую пару ключ-значение
+    protected void doSave(Resume r, Object searchKey) {
         map.put(searchKey, r);
     }
 
+    // удаляем по ключу
     @Override
-    protected void doDelete(Object searchKey) {  // удаляем по ключу
+    protected void doDelete(Object searchKey) {
         map.remove(searchKey);
     }
 
+    // возвращаем значение по ключу
     @Override
-    protected Resume doGet(Object searchKey) {  // возвращаем значение по ключу
-        Resume resume = map.get(searchKey);
-        return resume;
+    protected Resume doGet(Object searchKey) {
+        return map.get(searchKey);
     }
 
+    // очистить мапу
     @Override
-    public void clear() {          // очистить мапу
+    public void clear() {
         map.clear();
     }
 
+    // ?      map.values();
     @Override
-    public Resume[] getAll() {  // ?      map.values();
-        return new Resume[0];
+    public Resume[] getAll() {
+        return map.values().toArray(new Resume[map.size()]);
     }
 
+    // возвращаем размер мапы
     @Override
-    public int size() {      // возвращаем размер мапы
+    public int size() {
         return map.size();
     }
 }
