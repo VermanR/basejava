@@ -16,7 +16,7 @@ public class MapStorage extends AbstractStorage {
     // ?
     @Override
     protected void doUpdate(Resume r, Object searchKey) {
-        map.put(searchKey, r);
+        map.put((String) searchKey, r);
     }
 
     // возвращает true если резюме есть
@@ -28,7 +28,7 @@ public class MapStorage extends AbstractStorage {
     // добавляем новую пару ключ-значение
     @Override
     protected void doSave(Resume r, Object searchKey) {
-        map.put(searchKey, r);
+        map.put((String) searchKey, r);
     }
 
     // удаляем по ключу
