@@ -8,10 +8,11 @@ import java.util.Map;
 public class MapStorage extends AbstractStorage {
     private Map<String, Resume> map = new HashMap<>();
 
+    
     @Override
     protected Object getSearchKey(String uuid) {
-        return map.get(uuid);
-    }
+            return map.get(uuid);
+        }
 
     // ?
     @Override
@@ -53,11 +54,13 @@ public class MapStorage extends AbstractStorage {
     @Override
     public Resume[] getAll() {
         return map.values().toArray(new Resume[map.size()]);
+        
     }
 
     // возвращаем размер мапы
     @Override
     public int size() {
         return map.size();
+       // return map.keySet().size();
     }
 }
