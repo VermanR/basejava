@@ -8,11 +8,10 @@ import java.util.Map;
 public class MapStorage extends AbstractStorage {
     private Map<String, Resume> map = new HashMap<>();
 
-    
     @Override
     protected Object getSearchKey(String uuid) {
-            return map.get(uuid);
-        }
+        return uuid;
+    }
 
     // ?
     @Override
@@ -20,10 +19,10 @@ public class MapStorage extends AbstractStorage {
         map.put((String) searchKey, r);
     }
 
-    // возвращает true если резюме есть
+    // есть ли данный ключ в HashMap или нет
     @Override
     protected boolean isExist(Object searchKey) {
-        return searchKey != null;
+        return map.containsKey((String) searchKey);
     }
 
     // добавляем новую пару ключ-значение
@@ -35,13 +34,13 @@ public class MapStorage extends AbstractStorage {
     // удаляем по ключу
     @Override
     protected void doDelete(Object searchKey) {
-        map.remove(searchKey);
+        map.remove((String) searchKey);
     }
 
     // возвращаем значение по ключу
     @Override
     protected Resume doGet(Object searchKey) {
-        return map.get(searchKey);
+        return map.get((String) searchKey);
     }
 
     // очистить мапу
@@ -54,13 +53,11 @@ public class MapStorage extends AbstractStorage {
     @Override
     public Resume[] getAll() {
         return map.values().toArray(new Resume[map.size()]);
-        
     }
 
     // возвращаем размер мапы
     @Override
     public int size() {
         return map.size();
-       // return map.keySet().size();
     }
 }
