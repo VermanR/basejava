@@ -5,6 +5,7 @@ import com.basejava.webapp.model.Resume;
 import java.util.HashMap;
 import java.util.Map;
 
+
 public class MapStorage extends AbstractStorage {
     private Map<String, Resume> map = new HashMap<>();
 
@@ -49,9 +50,11 @@ public class MapStorage extends AbstractStorage {
         map.clear();
     }
 
-    // ?      map.values();
     @Override
     public Resume[] getAll() {
+        // List<Resume> list = new ArrayList<>(map.values());
+        // return list.toArray(new Resume[list.size()]);
+
         return map.values().toArray(new Resume[map.size()]);
     }
 
