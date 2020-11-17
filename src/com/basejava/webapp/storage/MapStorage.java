@@ -2,8 +2,7 @@ package com.basejava.webapp.storage;
 
 import com.basejava.webapp.model.Resume;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 
 public class MapStorage extends AbstractStorage {
@@ -52,10 +51,9 @@ public class MapStorage extends AbstractStorage {
 
     @Override
     public Resume[] getAll() {
-        // List<Resume> list = new ArrayList<>(map.values());
-        // return list.toArray(new Resume[list.size()]);
-
-        return map.values().toArray(new Resume[map.size()]);
+        List<Resume> list = new ArrayList<>(map.values());
+        Collections.sort(list);
+        return list.toArray(new Resume[list.size()]);
     }
 
     // возвращаем размер мапы
