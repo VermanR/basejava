@@ -4,7 +4,6 @@ import com.basejava.webapp.model.Resume;
 
 import java.util.*;
 
-
 public class MapStorage extends AbstractStorage {
     private Map<String, Resume> map = new HashMap<>();
 
@@ -62,3 +61,4 @@ public class MapStorage extends AbstractStorage {
         return map.size();
     }
 }
+
