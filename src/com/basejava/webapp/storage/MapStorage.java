@@ -48,11 +48,20 @@ public class MapStorage extends AbstractStorage {
         map.clear();
     }
 
+    /*
+   @Override
+   public Resume[] getAll() {
+   List<Resume> list = new ArrayList<>(map.values());
+   Collections.sort(list);
+   return list.toArray(new Resume[list.size()]);
+   }
+   */
+
     @Override
-    public Resume[] getAll() {
+    public List<Resume> getAllSorted() {
         List<Resume> list = new ArrayList<>(map.values());
         Collections.sort(list);
-        return list.toArray(new Resume[list.size()]);
+        return list;
     }
 
     // возвращаем размер мапы

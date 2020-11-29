@@ -5,7 +5,10 @@ import com.basejava.webapp.exception.NotExistStorageException;
 import com.basejava.webapp.exception.StorageException;
 import com.basejava.webapp.model.Resume;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 public abstract class AbstractArrayStorage extends AbstractStorage {
     protected static final int STORAGE_LIMIT = 10000;
@@ -26,11 +29,20 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     protected void doUpdate(Resume r, Object index) {
         storage[(Integer) index] = r;
     }
+
     /**
      * @return array, contains only Resumes in storage (without null)
      */
-    public Resume[] getAll() {
+
+   /* public Resume[] getAll() {
         return Arrays.copyOfRange(storage, 0, size);
+    }*/
+
+    @Override
+    public List<Resume> getAllSorted() {
+        List<Resume> list = new ArrayList<>();
+        Collections.addAll(list, storage);
+        return list;
     }
 
     @Override
@@ -38,17 +50,17 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         if (size >= STORAGE_LIMIT) {              // проверка на переполнение
             throw new StorageException("Storage overflow", r.getUuid());
         } else {
-            insertElement(r,(Integer) index);
+            insertElement(r, (Integer) index);
             size++;
         }
     }
 
     @Override
     public void doDelete(Object index) {                 //резюме есть в storage?
-            fillDeletedElement((Integer) index);
-            storage[size - 1] = null;
-            size--;
-        }
+        fillDeletedElement((Integer) index);
+        storage[size - 1] = null;
+        size--;
+    }
 
     public Resume doGet(Object index) {
         return storage[(Integer) index];
