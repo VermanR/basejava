@@ -4,42 +4,42 @@ import com.basejava.webapp.model.Resume;
 
 import java.util.*;
 
-public class MapStorage extends AbstractStorage {
-    private Map<String, Resume> map = new HashMap<>();
+public class MapStorageId extends AbstractStorage {
+    private Map<Integer, Resume> map = new HashMap<>();
 
     @Override
-    protected Object getIndex(String uuid) {
-        return uuid;
+    protected Object getIndex(Integer id) {
+        return id;
     }
 
     // ?
     @Override
     protected void doUpdate(Resume r, Object searchKey) {
-        map.put((String) searchKey, r);
+        map.put((Integer) searchKey, r);
     }
 
     // есть ли данный ключ в HashMap или нет
     @Override
     protected boolean isExist(Object searchKey) {
-        return map.containsKey((String) searchKey);
+        return map.containsKey((Integer) searchKey);
     }
 
     // добавляем новую пару ключ-значение
     @Override
     protected void doSave(Resume r, Object searchKey) {
-        map.put((String) searchKey, r);
+        map.put((Integer) searchKey, r);
     }
 
     // удаляем по ключу
     @Override
     protected void doDelete(Object searchKey) {
-        map.remove((String) searchKey);
+        map.remove((Integer) searchKey);
     }
 
     // возвращаем значение по ключу
     @Override
     protected Resume doGet(Object searchKey) {
-        return map.get((String) searchKey);
+        return map.get((Integer) searchKey);
     }
 
     @Override
@@ -60,4 +60,3 @@ public class MapStorage extends AbstractStorage {
         return map.size();
     }
 }
-

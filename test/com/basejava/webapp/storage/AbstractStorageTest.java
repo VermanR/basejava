@@ -7,6 +7,9 @@ import com.basejava.webapp.model.Resume;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.List;
+
 import static junit.framework.TestCase.assertEquals;
 
 public abstract class AbstractStorageTest {
@@ -70,6 +73,18 @@ public abstract class AbstractStorageTest {
         assertEquals(RESUME_2, expectedResumes[1]);
         assertEquals(RESUME_3, expectedResumes[2]);
     }*/
+
+    @Test
+    public void getAllSorted() throws Exception {
+        List<Resume> list = storage.getAllSorted();
+
+        //assertEquals(3, list.size());
+        assertEquals(RESUME_1, list.get(0));
+        assertEquals(RESUME_2, list.get(1));
+        assertEquals(RESUME_3, list.get(2));
+    }
+
+
 
     @Test
     public void save() throws Exception {
