@@ -4,9 +4,12 @@ import com.basejava.webapp.exception.ExistStorageException;
 import com.basejava.webapp.exception.NotExistStorageException;
 import com.basejava.webapp.model.Resume;
 
+import java.util.Comparator;
 import java.util.List;
 
-public abstract class AbstractStorage implements Storage{
+public abstract class AbstractStorage implements Storage {
+
+    protected static Comparator<Resume> resume_fullName_uuid_Comparator = Comparator.comparing(Resume::getFullName).thenComparing(Resume::getUuid);
 
     protected abstract Object getIndex(String uuid);
 
@@ -58,4 +61,6 @@ public abstract class AbstractStorage implements Storage{
         }
         return searchKey;
     }
+
+
 }
